@@ -51,7 +51,17 @@ try {
     // error_log("Received sortOrder: " . $sortOrder);
 
     // WHERE clause - check date + searching & filtering
-    $conditions = ["(ws.check_date = :lastUpdated OR ws.check_date IS NULL)", "b.category = :bot_category"];
+    $conditions = ["(ws.check_date = :lastUpdated OR ws.check_date IS NULL)"];
+    if($botCategory !== "All") {
+        $conditions[] = "b.category = :bot_category";
+    }
+    if ($search) {
+        $conditions[] = "w.url LIKE :search";
+    }
+    if ($category) {
+        $conditions[] = "w.category = :category";
+    }
+    $whereSQL = "WHERE " . implode(" AND ", $conditions);
 
     if ($search) {
         $conditions[] = "w.url LIKE :search";
@@ -110,7 +120,9 @@ $lastUpdatedQuery = "
 
     $stmtCount = $pdo->prepare($countQuery);
     $stmtCount->bindParam(':lastUpdated', $lastUpdated, PDO::PARAM_STR);
-    $stmtCount->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+    if($botCategory !== "All") {
+        $stmtCount->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+    }
     if ($search) {
         // wrap with % wildcard characters to look for anything with the search value
         $searchLike = "%$search%";
@@ -148,7 +160,9 @@ $lastUpdatedQuery = "
     
     $stmtQuery = $pdo->prepare($query);
     $stmtQuery->bindParam(':lastUpdated', $lastUpdated, PDO::PARAM_STR);
-    $stmtQuery->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+    if($botCategory !== "All") {
+        $stmtQuery->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+    }
     
 
     if ($search) {
