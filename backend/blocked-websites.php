@@ -21,7 +21,10 @@ if ($category !== null && !preg_match('/^[a-zA-Z0-9\s]+$/', $category)) {
   exit;
 }
 
-$whereClause = "ws.status = 'Blocked' AND ws.block_date <= CURDATE() AND b.category = :bot_category";
+$whereClause = "ws.status = 'Blocked' AND ws.block_date <= CURDATE()";
+if($botCategory !== "All") {
+    $whereClause .= " AND b.category = :bot_category";
+}
 if($category !== null) {
     $whereClause .= " AND w.category = :category";
 }
@@ -37,7 +40,9 @@ ORDER BY DATE(ws.block_date), ws.bot_id
 ";
 
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+if($botCategory !== "All") {
+  $stmt->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+}
 
 if($category !== null) {
   $stmt->bindParam(':category', $category);
