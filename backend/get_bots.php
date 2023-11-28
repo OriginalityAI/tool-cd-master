@@ -13,10 +13,16 @@ $botCategory = $config['bot_category'];
   }
 
   try {
-    $botsQuery = "SELECT name FROM Bots WHERE category = :bot_category";
+    $botsQuery = "SELECT name FROM Bots";
+
+    if($botCategory !== "All") {
+      $botsQuery .= " WHERE category = :bot_category";
+  }
 
     $stmtBots = $pdo->prepare($botsQuery);
-    $stmtBots->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+    if($botCategory !== "All") {
+      $stmtBots->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+  }
     $stmtBots->execute();
     $botNames = $stmtBots->fetchAll(PDO::FETCH_COLUMN);
 
