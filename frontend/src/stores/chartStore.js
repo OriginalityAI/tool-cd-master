@@ -10,6 +10,8 @@ export const useChartsStore = defineStore({
     topAmounts: ["Top 10", "Top 25", "Top 100", "Top 250", "Top 500", "Top 1000"],
     showAmount: "Top 1000",
     showCategory: null,
+    botTypes: ["All", "AI", "SEO", "Search Engine"],
+    selectedBotType: "All",
     chartDetailsHeaders: [
       { title: "Bot Name", value: "name", align: "center" },
       { title: "Blocked", value: "count", align: "center" },

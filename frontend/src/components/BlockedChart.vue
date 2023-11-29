@@ -37,6 +37,16 @@
           item-color="#7859ff"
           clearable
         ></v-select>
+        <v-select
+          label="Bot Type"
+          class="chart-category-selector"
+          v-model="chartStore.selectedBotType"
+          :items="chartStore.botTypes"
+          density="compact"
+          variant="outlined"
+          color="#7859ff"
+          item-color="#7859ff"
+        ></v-select>
         <Citation />
         <v-btn
           class="save-chart-btn"
