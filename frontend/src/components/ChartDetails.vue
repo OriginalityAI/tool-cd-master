@@ -5,7 +5,7 @@
       :items="tableData"
       class="elevation-1"
       hide-default-footer
-      height="265"
+      height="325"
     >
       <template v-slot:item.percentage="{ item }">
         {{ item.percentage }}%
