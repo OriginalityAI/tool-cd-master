@@ -75,62 +75,118 @@ export const useWebsiteStatusStore = defineStore({
         key: "botsStatuses.GoogleExtended.status",
         slotName: "GoogleExtended"
       },
-      // {
-      //   title: "MJ12bot",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.MJ12bot.status",
-      //   slotName: "MJ12bot"
-      // },
-      // {
-      //   title: "AhrefsBot",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.AhrefsBot.status",
-      //   slotName: "AhrefsBot"
-      // },
-      // {
-      //   title: "SemrushBot",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.SemrushBot.status",
-      //   slotName: "SemrushBot"
-      // },
-      // {
-      //   title: "dotbot",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.dotbot.status",
-      //   slotName: "dotbot"
-      // },
-      // {
-      //   title: "rogerbot",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.rogerbot.status",
-      //   slotName: "rogerbot"
-      // },
-      // {
-      //   title: "Screaming Frog",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.ScreamingFrogSEOSpider.status",
-      //   slotName: "ScreamingFrogSEOSpider"
-      // },
-      // {
-      //   title: "cognitiveSEO",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.cognitiveSEO.status",
-      //   slotName: "cognitiveSEO"
-      // },
-      // {
-      //   title: "OnCrawl",
-      //   align: "center",
-      //   sortable: false,
-      //   key: "botsStatuses.OnCrawl.status",
-      //   slotName: "OnCrawl"
-      // },
+      {
+        title: "MJ12bot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.MJ12bot.status",
+        slotName: "MJ12bot"
+      },
+      {
+        title: "AhrefsBot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.AhrefsBot.status",
+        slotName: "AhrefsBot"
+      },
+      {
+        title: "SemrushBot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.SemrushBot.status",
+        slotName: "SemrushBot"
+      },
+      {
+        title: "dotbot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.dotbot.status",
+        slotName: "dotbot"
+      },
+      {
+        title: "rogerbot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.rogerbot.status",
+        slotName: "rogerbot"
+      },
+      {
+        title: "Screaming Frog",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.ScreamingFrogSEOSpider.status",
+        slotName: "ScreamingFrogSEOSpider"
+      },
+      {
+        title: "cognitiveSEO",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.cognitiveSEO.status",
+        slotName: "cognitiveSEO"
+      },
+      {
+        title: "OnCrawl",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.OnCrawl.status",
+        slotName: "OnCrawl"
+      },
+      {
+        title: "Googlebot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Googlebot.status",
+        slotName: "Googlebot"
+      },
+      {
+        title: "Bingbot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Bingbot.status",
+        slotName: "Bingbot"
+      },
+      {
+        title: "Slurp",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Slurp.status",
+        slotName: "Slurp"
+      },
+      {
+        title: "DuckDuckBot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.DuckDuckBot.status",
+        slotName: "DuckDuckBot"
+      },
+      {
+        title: "Baiduspider",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Baiduspider.status",
+        slotName: "Baiduspider"
+      },
+      {
+        title: "Yandex",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Yandex.status",
+        slotName: "Yandex"
+      },
+      {
+        title: "SogouSpider",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.SogouSpider.status",
+        slotName: "SogouSpider"
+      },
+      {
+        title: "Exabot",
+        align: "center",
+        sortable: false,
+        key: "botsStatuses.Exabot.status",
+        slotName: "Exabot"
+      },
     ],
     currentParameters: {
       page: 1,
@@ -182,7 +238,7 @@ export const useWebsiteStatusStore = defineStore({
             })
               .filter(site => !onlyFavorites || site.isFavorite) : [];
             this.sites = updatedSites;
-            console.log(this.sites[0].botsStatuses)
+            console.log('Bot statuses', this.sites[5].botsStatuses.Slurp)
             this.totalSites = res.data.totalSites;
             this.loading = false;
           })

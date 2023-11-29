@@ -141,7 +141,7 @@
     {{ item.botsStatuses.GoogleExtended ? item.botsStatuses.GoogleExtended.status : 'Allowed' }}
   </span>
 </template>
-          <!-- <template v-slot:item.botsStatuses.MJ12bot.status="{ item }">
+          <template v-slot:item.botsStatuses.MJ12bot.status="{ item }">
   <div v-if="item.botsStatuses.MJ12bot && item.botsStatuses.MJ12bot.status === 'Blocked'">
     <span
       :class="{
@@ -284,7 +284,153 @@
   <span v-else>
     {{ item.botsStatuses.OnCrawl ? item.botsStatuses.OnCrawl.status : 'Allowed' }}
   </span>
-</template> -->
+</template>
+<!-- Search Engine Bots -->
+<template v-slot:item.botsStatuses.Googlebot.status="{ item }">
+  <div v-if="item.botsStatuses.Googlebot && item.botsStatuses.Googlebot.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Googlebot.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Googlebot.status}}
+      <v-tooltip v-if="item.botsStatuses.Googlebot.block_date && moment(item.botsStatuses.Googlebot.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Googlebot.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Googlebot ? item.botsStatuses.Googlebot.status : 'Allowed' }}
+  </span>
+</template>
+
+<template v-slot:item.botsStatuses.Bingbot.status="{ item }">
+  <div v-if="item.botsStatuses.Bingbot && item.botsStatuses.Bingbot.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Bingbot.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Bingbot.status}}
+      <v-tooltip v-if="item.botsStatuses.Bingbot.block_date && moment(item.botsStatuses.Bingbot.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Bingbot.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Bingbot ? item.botsStatuses.Bingbot.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.Slurp.status="{ item }">
+  <div v-if="item.botsStatuses.Slurp && item.botsStatuses.Slurp.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Slurp.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Slurp.status}}
+      <v-tooltip v-if="item.botsStatuses.Slurp.block_date && moment(item.botsStatuses.Slurp.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Slurp.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Slurp ? item.botsStatuses.Slurp.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.DuckDuckBot.status="{ item }">
+  <div v-if="item.botsStatuses.DuckDuckBot && item.botsStatuses.DuckDuckBot.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.DuckDuckBot.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.DuckDuckBot.status}}
+      <v-tooltip v-if="item.botsStatuses.DuckDuckBot.block_date && moment(item.botsStatuses.DuckDuckBot.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.DuckDuckBot.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.DuckDuckBot ? item.botsStatuses.DuckDuckBot.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.Baiduspider.status="{ item }">
+  <div v-if="item.botsStatuses.Baiduspider && item.botsStatuses.Baiduspider.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Baiduspider.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Baiduspider.status}}
+      <v-tooltip v-if="item.botsStatuses.Baiduspider.block_date && moment(item.botsStatuses.Baiduspider.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Baiduspider.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Baiduspider ? item.botsStatuses.Baiduspider.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.Yandex.status="{ item }">
+  <div v-if="item.botsStatuses.Yandex && item.botsStatuses.Yandex.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Yandex.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Yandex.status}}
+      <v-tooltip v-if="item.botsStatuses.Yandex.block_date && moment(item.botsStatuses.Yandex.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Yandex.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Yandex ? item.botsStatuses.Yandex.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.SogouSpider.status="{ item }">
+  <div v-if="item.botsStatuses.SogouSpider && item.botsStatuses.SogouSpider.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.SogouSpider.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.SogouSpider.status}}
+      <v-tooltip v-if="item.botsStatuses.SogouSpider.block_date && moment(item.botsStatuses.SogouSpider.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.SogouSpider.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.SogouSpider ? item.botsStatuses.SogouSpider.status : 'Allowed' }}
+  </span>
+</template>
+<template v-slot:item.botsStatuses.Exabot.status="{ item }">
+  <div v-if="item.botsStatuses.Exabot && item.botsStatuses.Exabot.status === 'Blocked'">
+    <span
+      :class="{
+        'blocked-text': item.botsStatuses.Exabot.status === 'Blocked',
+      }"
+    >
+      {{ item.botsStatuses.Exabot.status}}
+      <v-tooltip v-if="item.botsStatuses.Exabot.block_date && moment(item.botsStatuses.Exabot.block_date.split(' ')[0], 'YYYY-MM-DD').isValid()" activator="parent" location="bottom">
+        Blocked On:
+        {{ formatBlockDate(item.botsStatuses.Exabot.block_date) }}
+      </v-tooltip>
+    </span>
+  </div>
+  <span v-else>
+    {{ item.botsStatuses.Exabot ? item.botsStatuses.Exabot.status : 'Allowed' }}
+  </span>
+</template>
          
          
          
