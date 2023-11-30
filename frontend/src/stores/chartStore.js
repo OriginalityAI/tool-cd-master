@@ -25,9 +25,11 @@ export const useChartsStore = defineStore({
     fetchChartData() {
     },
     async fetchBotNames() {
+      let selectedBotType = this.selectedBotType;
+      
       const response = await fetch(
         // "http://localhost:3001/get_bots.php"
-        `${backendUrl}get_bots.php`
+        `${backendUrl}get_bots.php?botType=${encodeURIComponent(selectedBotType)}`
       );
       if (response.ok) {
         const data = await response.json();

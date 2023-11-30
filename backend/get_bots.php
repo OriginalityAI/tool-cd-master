@@ -5,7 +5,7 @@ require_once "db/db_connection.php";
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-$botCategory = $config['bot_category'];
+$botType = isset($_GET['botType']) ? $_GET['botType'] : null;
 
   if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     echo json_encode(['error' => 'Invalid request type. Use GET request.']);
@@ -21,7 +21,7 @@ $botCategory = $config['bot_category'];
 
     $stmtBots = $pdo->prepare($botsQuery);
     if($botCategory !== "All") {
-      $stmtBots->bindParam(':bot_category', $botCategory, PDO::PARAM_STR);
+      $stmtBots->bindParam(':bot_category', $botType, PDO::PARAM_STR);
   }
     $stmtBots->execute();
     $botNames = $stmtBots->fetchAll(PDO::FETCH_COLUMN);
