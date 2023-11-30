@@ -4,7 +4,7 @@ include 'db/db_connection.php';
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-$botCategory = $config['bot_category'];
+$botCategory = isset($_GET['botType']) ? $_GET['botType'] : $config['bot_category'];
 
   if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     echo json_encode(['error' => 'Invalid request type']);

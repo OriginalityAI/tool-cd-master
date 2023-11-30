@@ -211,7 +211,9 @@ const chartOptions = computed(() => ({
 
     const fetchChartData = () => {
       let selectedAmount = chartStore.showAmount.replace("Top ", "");
-      let url = `${backendUrl}blocked-websites.php?limit=${selectedAmount}`;
+      let selectedBotType = chartStore.selectedBotType;
+
+      let url = `${backendUrl}blocked-websites.php?limit=${selectedAmount}&botType=${encodeURIComponent(selectedBotType)}`;
       if (chartStore.showCategory !== null) {
         url += `&category=${encodeURIComponent(chartStore.showCategory)}`;
       }

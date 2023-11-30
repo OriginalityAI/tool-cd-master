@@ -238,7 +238,7 @@ export const useWebsiteStatusStore = defineStore({
             })
               .filter(site => !onlyFavorites || site.isFavorite) : [];
             this.sites = updatedSites;
-            console.log('Bot statuses', this.sites[5].botsStatuses.Slurp)
+            // console.log('Bot statuses', this.sites[5].botsStatuses.Slurp)
             this.totalSites = res.data.totalSites;
             this.loading = false;
           })
