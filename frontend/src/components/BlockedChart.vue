@@ -232,7 +232,7 @@ const chartOptions = computed(() => ({
           // object with one key-value pair for each bot name. value is an array of objects of all check dates, with a count for each check day.
           // console.log(botsMapping);
 
-          const startDate = new Date("2006-01-01");
+          const startDate = new Date("2004-01-01");
           const today = new Date();
           let botSeries = {};
 
