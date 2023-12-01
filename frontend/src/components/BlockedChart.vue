@@ -355,7 +355,7 @@ const chartOptions = computed(() => ({
     });
 
     watch(
-      [() => chartStore.showAmount, () => chartStore.showCategory],
+      [() => chartStore.showAmount, () => chartStore.showCategory, () => chartStore.selectedBotType],
       (newVal, oldVal) => {
         // console.log("showAmount changed from", oldVal, "to", newVal);
         fetchChartData();
