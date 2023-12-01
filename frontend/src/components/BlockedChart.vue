@@ -92,8 +92,11 @@ export default {
     const chartStore = useChartsStore();
     const chartRenderKey = ref(0);
     const chartTitle = computed(() => {
-  let title = `The Percent of the ${chartStore.showAmount} Websites Blocking ${botType} Web Crawlers`;
-
+      let title = `The Percent of the ${chartStore.showAmount} Websites Blocking`;
+  if (chartStore.selectedBotType !== "All") {
+    title += ` ${chartStore.selectedBotType}`;
+  }
+  title += " Web Crawlers";
   if (chartStore.showCategory) {
     title += `<br>${chartStore.showCategory}`;
   }
@@ -101,7 +104,14 @@ export default {
   return title;
 });
 
-const mainTitle = computed(() => `The Percent of the ${chartStore.showAmount} Websites Blocking ${botType} Web Crawlers`);
+const mainTitle = computed(() => {
+  let title = `The Percent of the ${chartStore.showAmount} Websites Blocking`;
+  if (chartStore.selectedBotType !== "All") {
+    title += ` ${chartStore.selectedBotType}`;
+  }
+  title += " Web Crawlers";
+  return title;
+});
 const categoryTitle = computed(() => chartStore.showCategory);
 
     const yAxisTitle = computed(() => {
