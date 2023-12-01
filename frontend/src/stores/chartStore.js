@@ -10,7 +10,7 @@ export const useChartsStore = defineStore({
     topAmounts: ["Top 10", "Top 25", "Top 100", "Top 250", "Top 500", "Top 1000"],
     showAmount: "Top 1000",
     showCategory: null,
-    botTypes: ["All", "AI", "SEO", "Search Engine"],
+    botTypes: ["All", "AI", "SEO", "Search-Engine"],
     selectedBotType: "All",
     chartDetailsHeaders: [
       { title: "Bot Name", value: "name", align: "center" },
@@ -26,7 +26,7 @@ export const useChartsStore = defineStore({
     },
     async fetchBotNames() {
       let selectedBotType = this.selectedBotType;
-      
+
       const response = await fetch(
         // "http://localhost:3001/get_bots.php"
         `${backendUrl}get_bots.php?botType=${encodeURIComponent(selectedBotType)}`
