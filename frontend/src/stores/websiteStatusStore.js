@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { convertToCSV, downloadCSV } from '../utils/tableHelper';
+import {computed} from 'vue';
 
 let backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
 
@@ -10,6 +11,10 @@ export const useWebsiteStatusStore = defineStore({
     sites: [],
     categories: [],
     selectedCategory: null,
+    botTypes: ["All", "AI", "SEO", "Search-Engine"
+    ],
+    headers: [],
+    selectedBotType: "All",
     displayTopLimit: ["Top 10", "Top 25", "Top 100", "Top 250", "Top 500", "Top 1000"],
     itemsPerPage: [
       { value: 10, title: "Top 10" },
@@ -22,172 +27,6 @@ export const useWebsiteStatusStore = defineStore({
     selectedLimit: "Top 1000",
     totalSites: 0,
     dateFilter: null,
-    headers: [
-      {
-        title: "",
-        align: "end",
-        sortable: false,
-        key: "isFavorite",
-      },
-      {
-        title: "Position",
-        align: "center",
-        sortable: true,
-        key: "position",
-      },
-      {
-        title: "Website",
-        align: "center",
-        sortable: true,
-        key: "url",
-      },
-      {
-        title: "Category",
-        align: "center",
-        sortable: true,
-        key: "category",
-      },
-            {
-        title: "GPTBot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.GPTBot.status",
-        slotName: "GPTBot"
-      },
-      {
-        title: "CCBot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.CCBot.status",
-        slotName: "CCBot"
-      },
-      {
-        title: "Anthropic AI",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.anthropicAi.status",
-        slotName: "anthropicAi"
-      },
-      {
-        title: "Google-Extended",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.GoogleExtended.status",
-        slotName: "GoogleExtended"
-      },
-      {
-        title: "MJ12bot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.MJ12bot.status",
-        slotName: "MJ12bot"
-      },
-      {
-        title: "AhrefsBot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.AhrefsBot.status",
-        slotName: "AhrefsBot"
-      },
-      {
-        title: "SemrushBot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.SemrushBot.status",
-        slotName: "SemrushBot"
-      },
-      {
-        title: "dotbot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.dotbot.status",
-        slotName: "dotbot"
-      },
-      {
-        title: "rogerbot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.rogerbot.status",
-        slotName: "rogerbot"
-      },
-      {
-        title: "Screaming Frog",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.ScreamingFrogSEOSpider.status",
-        slotName: "ScreamingFrogSEOSpider"
-      },
-      {
-        title: "cognitiveSEO",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.cognitiveSEO.status",
-        slotName: "cognitiveSEO"
-      },
-      {
-        title: "OnCrawl",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.OnCrawl.status",
-        slotName: "OnCrawl"
-      },
-      {
-        title: "Googlebot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Googlebot.status",
-        slotName: "Googlebot"
-      },
-      {
-        title: "Bingbot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Bingbot.status",
-        slotName: "Bingbot"
-      },
-      {
-        title: "Slurp",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Slurp.status",
-        slotName: "Slurp"
-      },
-      {
-        title: "DuckDuckBot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.DuckDuckBot.status",
-        slotName: "DuckDuckBot"
-      },
-      {
-        title: "Baiduspider",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Baiduspider.status",
-        slotName: "Baiduspider"
-      },
-      {
-        title: "Yandex",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Yandex.status",
-        slotName: "Yandex"
-      },
-      {
-        title: "SogouSpider",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.SogouSpider.status",
-        slotName: "SogouSpider"
-      },
-      {
-        title: "Exabot",
-        align: "center",
-        sortable: false,
-        key: "botsStatuses.Exabot.status",
-        slotName: "Exabot"
-      },
-    ],
     currentParameters: {
       page: 1,
       sitesPerPage: 10,
@@ -243,7 +82,7 @@ export const useWebsiteStatusStore = defineStore({
             this.loading = false;
           })
           .catch(error => {
-            console.error("There was an error!", error);
+            console.error("There \s an error!", error);
             this.loading = false;
           });
 
@@ -290,9 +129,335 @@ export const useWebsiteStatusStore = defineStore({
     },
     formatSlotName(key) {
       return key.replace(/-./g, match => match.charAt(1).toUpperCase());
+    },
+    updateHeaders() {
+      let headers = [   
+        {
+        title: "",
+        align: "end",
+        sortable: false,
+        key: "isFavorite",
+      },
+      {
+        title: "Position",
+        align: "center",
+        sortable: true,
+        key: "position",
+      },
+      {
+        title: "Website",
+        align: "center",
+        sortable: true,
+        key: "url",
+      },
+      {
+        title: "Category",
+        align: "center",
+        sortable: true,
+        key: "category",
+      }
+]
+
+if (this.selectedBotType === "All") {
+  headers.push({
+    title: "GPTBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.GPTBot.status",
+    slotName: "GPTBot"
+  },
+  {
+    title: "CCBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.CCBot.status",
+    slotName: "CCBot"
+  },
+  {
+    title: "Anthropic AI",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.anthropicAi.status",
+    slotName: "anthropicAi"
+  },
+  {
+    title: "Google-Extended",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.GoogleExtended.status",
+    slotName: "GoogleExtended"
+  },
+  {
+    title: "MJ12bot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.MJ12bot.status",
+    slotName: "MJ12bot"
+  },
+  {
+    title: "AhrefsBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.AhrefsBot.status",
+    slotName: "AhrefsBot"
+  },
+  {
+    title: "SemrushBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.SemrushBot.status",
+    slotName: "SemrushBot"
+  },
+  {
+    title: "dotbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.dotbot.status",
+    slotName: "dotbot"
+  },
+  {
+    title: "rogerbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.rogerbot.status",
+    slotName: "rogerbot"
+  },
+  {
+    title: "Screaming Frog",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.ScreamingFrogSEOSpider.status",
+    slotName: "ScreamingFrogSEOSpider"
+  },
+  {
+    title: "cognitiveSEO",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.cognitiveSEO.status",
+    slotName: "cognitiveSEO"
+  },
+  {
+    title: "OnCrawl",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.OnCrawl.status",
+    slotName: "OnCrawl"
+  },
+  {
+    title: "Googlebot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Googlebot.status",
+    slotName: "Googlebot"
+  },
+  {
+    title: "Bingbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Bingbot.status",
+    slotName: "Bingbot"
+  },
+  {
+    title: "Slurp",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Slurp.status",
+    slotName: "Slurp"
+  },
+  {
+    title: "DuckDuckBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.DuckDuckBot.status",
+    slotName: "DuckDuckBot"
+  },
+  {
+    title: "Baiduspider",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Baiduspider.status",
+    slotName: "Baiduspider"
+  },
+  {
+    title: "Yandex",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Yandex.status",
+    slotName: "Yandex"
+  },
+  {
+    title: "SogouSpider",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.SogouSpider.status",
+    slotName: "SogouSpider"
+  },
+  {
+    title: "Exabot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Exabot.status",
+    slotName: "Exabot"
+  },
+)
+}
+
+if (this.selectedBotType === "AI") {
+  headers.push(   {
+    title: "GPTBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.GPTBot.status",
+    slotName: "GPTBot"
+  },
+  {
+    title: "CCBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.CCBot.status",
+    slotName: "CCBot"
+  },
+  {
+    title: "Anthropic AI",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.anthropicAi.status",
+    slotName: "anthropicAi"
+  },
+  {
+    title: "Google-Extended",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.GoogleExtended.status",
+    slotName: "GoogleExtended"
+  },
+)
+}
+
+if (this.selectedBotType === "SEO") {
+headers.push(    {
+    title: "MJ12bot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.MJ12bot.status",
+    slotName: "MJ12bot"
+  },
+  {
+    title: "AhrefsBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.AhrefsBot.status",
+    slotName: "AhrefsBot"
+  },
+  {
+    title: "SemrushBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.SemrushBot.status",
+    slotName: "SemrushBot"
+  },
+  {
+    title: "dotbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.dotbot.status",
+    slotName: "dotbot"
+  },
+  {
+    title: "rogerbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.rogerbot.status",
+    slotName: "rogerbot"
+  },
+  {
+    title: "Screaming Frog",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.ScreamingFrogSEOSpider.status",
+    slotName: "ScreamingFrogSEOSpider"
+  },
+  {
+    title: "cognitiveSEO",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.cognitiveSEO.status",
+    slotName: "cognitiveSEO"
+  },
+  {
+    title: "OnCrawl",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.OnCrawl.status",
+    slotName: "OnCrawl"
+  })
+}
+
+if (this.selectedBotType === "Search-Engine") {
+  headers.push( {
+    title: "Googlebot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Googlebot.status",
+    slotName: "Googlebot"
+  },
+  {
+    title: "Bingbot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Bingbot.status",
+    slotName: "Bingbot"
+  },
+  {
+    title: "Slurp",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Slurp.status",
+    slotName: "Slurp"
+  },
+  {
+    title: "DuckDuckBot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.DuckDuckBot.status",
+    slotName: "DuckDuckBot"
+  },
+  {
+    title: "Baiduspider",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Baiduspider.status",
+    slotName: "Baiduspider"
+  },
+  {
+    title: "Yandex",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Yandex.status",
+    slotName: "Yandex"
+  },
+  {
+    title: "SogouSpider",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.SogouSpider.status",
+    slotName: "SogouSpider"
+  },
+  {
+    title: "Exabot",
+    align: "center",
+    sortable: false,
+    key: "botsStatuses.Exabot.status",
+    slotName: "Exabot"
+  },
+)
+}
+
+this.headers = headers;
     }
   },
   getters: {
+
     flattenedSites() {
       return this.sites.map(site => {
         let flattenedSite = { ...site };

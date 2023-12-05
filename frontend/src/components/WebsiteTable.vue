@@ -38,6 +38,17 @@
           hide-details
           class="category-selector table-selector"
         ></v-select>
+        <v-select
+          v-model="websiteStatusStore.selectedBotType"
+          label="Bot Type"
+          :items="websiteStatusStore.botTypes"
+          density="compact"
+          variant="outlined"
+          color="#7859ff"
+          item-color="#7859ff"
+          hide-details
+          class="category-selector table-selector"
+        ></v-select>
       </div>
       </div>
       <div class="last-update-cont">
@@ -503,6 +514,14 @@ export default {
     const websiteStatusStore = useWebsiteStatusStore();
     const searchStore = useSearchStore();
     const showOnlyFavorites = ref(false);
+
+    watch(
+  () => websiteStatusStore.selectedBotType,
+  () => {
+    websiteStatusStore.updateHeaders();
+  },
+  { immediate: true }
+);
 
     const loadItems = ({ page, itemsPerPage, sortBy }) => {
       const sortColumn = sortBy && sortBy.length > 0 ? sortBy[0].key : null;
