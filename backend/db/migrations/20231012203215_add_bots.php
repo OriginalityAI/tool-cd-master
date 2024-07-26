@@ -19,16 +19,6 @@ final class AddBots extends AbstractMigration
    */
   public function change(): void
   {
-    $this->execute('INSERT INTO Bots (name) VALUES
-        ("GPTBot"),
-        ("CCBot"),
-        ("Google-Extended"),
-        ("anthropic-ai"),
-        ("ChatGPT-User"),
-        ("Googlebot"),
-        ("ClaudeBot"),
-        ("FacebookBot"),
-        ("cohere-ai")
-    ');
+    $this->execute('INSERT INTO Bots (name) VALUES ("GPTBot"), ("CCBot"), ("Google-Extended"), ("anthropic-ai")');
   }
 }
