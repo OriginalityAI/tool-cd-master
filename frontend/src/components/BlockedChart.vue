@@ -2,9 +2,16 @@
   <div class="blocked-chart-cont">
     <div class="chart-container">
       <div class="chart-title">
-  <div class="main-title" :style="{ fontSize: chartTitleFontSize }">{{ mainTitle }}</div>
-  <div class="category-title" :style="{ fontSize: categoryTitleFontSize }">{{ categoryTitle }}</div>
-</div>
+        <div class="main-title" :style="{ fontSize: chartTitleFontSize }">
+          {{ mainTitle }}
+        </div>
+        <div
+          class="category-title"
+          :style="{ fontSize: categoryTitleFontSize }"
+        >
+          {{ categoryTitle }}
+        </div>
+      </div>
       <apexchart
         :key="chartRenderKey"
         type="line"
@@ -93,26 +100,26 @@ export default {
     const chartRenderKey = ref(0);
     const chartTitle = computed(() => {
       let title = `The Percent of the ${chartStore.showAmount} Websites Blocking`;
-  if (chartStore.selectedBotType !== "All") {
-    title += ` ${chartStore.selectedBotType}`;
-  }
-  title += " Web Crawlers";
-  if (chartStore.showCategory) {
-    title += `<br>${chartStore.showCategory}`;
-  }
+      if (chartStore.selectedBotType !== "All") {
+        title += ` ${chartStore.selectedBotType}`;
+      }
+      title += " Web Crawlers";
+      if (chartStore.showCategory) {
+        title += `<br>${chartStore.showCategory}`;
+      }
 
-  return title;
-});
+      return title;
+    });
 
-const mainTitle = computed(() => {
-  let title = `The Percent of the ${chartStore.showAmount} Websites Blocking`;
-  if (chartStore.selectedBotType !== "All") {
-    title += ` ${chartStore.selectedBotType}`;
-  }
-  title += " Web Crawlers";
-  return title;
-});
-const categoryTitle = computed(() => chartStore.showCategory);
+    const mainTitle = computed(() => {
+      let title = `The Percent of the ${chartStore.showAmount} Websites Blocking`;
+      if (chartStore.selectedBotType !== "All") {
+        title += ` ${chartStore.selectedBotType}`;
+      }
+      title += " Web Crawlers";
+      return title;
+    });
+    const categoryTitle = computed(() => chartStore.showCategory);
 
     const yAxisTitle = computed(() => {
       return `% of ${chartStore.showAmount}`;
@@ -120,110 +127,112 @@ const categoryTitle = computed(() => chartStore.showCategory);
 
     const windowWidth = ref(window.innerWidth);
 
-const updateWidth = () => {
-  windowWidth.value = window.innerWidth;
-};
+    const updateWidth = () => {
+      windowWidth.value = window.innerWidth;
+    };
 
-const chartTitleFontSize = computed(() => {
-  const calculatedSize = windowWidth.value * 0.015;
-  const minSize = 11; 
-  const maxSize = 35; // Set your maximum size here
-  const finalSize = Math.max(Math.min(calculatedSize, maxSize), minSize);
-  return `${finalSize}px`;
-});
-
-const categoryTitleFontSize = computed(() => {
-  const calculatedSize = windowWidth.value * 0.015;
-  const minSize = 7; 
-  const maxSize = 28; // Set your maximum size here
-  const finalSize = Math.max(Math.min(calculatedSize, maxSize), minSize);
-  return `${finalSize}px`;
-});
-
-const axisTitleFontSize = computed(() => {
-  const calculatedSize = windowWidth.value * 0.0175;
-  const minSize = 10;
-  return `${Math.max(calculatedSize, minSize)}px`;
-});
-const chartHeight = computed(() => {
-      return windowWidth.value < 768 ? '325px' : '100%';
+    const chartTitleFontSize = computed(() => {
+      const calculatedSize = windowWidth.value * 0.015;
+      const minSize = 11;
+      const maxSize = 35; // Set your maximum size here
+      const finalSize = Math.max(Math.min(calculatedSize, maxSize), minSize);
+      return `${finalSize}px`;
     });
 
-const chartOptions = computed(() => ({
-  chart: {
-    id: "blocked-chart",
-    toolbar: {
-      show: true,
-      tools: {
-        pan: true,
-        zoom: true,
-        selection: true,
-        download: false,
-        zoomin: true,
-        zoomout: true,
-        reset: true,
-      },
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 768,
-      options: {
-        chart: {
-          height: chartHeight.value
-        }
-      }
-    },
-    {
-      breakpoint: 10000,
-      options: {
-        chart: {
-          height: 'auto'
-        }
-      }
-    }
-  ],
-  tooltip: {
-    enabled: true,
-    y: {
-      formatter: function (val) {
-        const total =
-          (val / 100) * parseInt(chartStore.showAmount.replace("Top ", ""));
-        return `${Math.round(total)} (${val.toFixed(1) + "%"})`;
-      },
-    },
-  },
+    const categoryTitleFontSize = computed(() => {
+      const calculatedSize = windowWidth.value * 0.015;
+      const minSize = 7;
+      const maxSize = 28; // Set your maximum size here
+      const finalSize = Math.max(Math.min(calculatedSize, maxSize), minSize);
+      return `${finalSize}px`;
+    });
 
-  xaxis: {
-    min: new Date("2010-01-01").getTime(),
-    title: {
-      text: "Date",
-      style: {
-        fontSize: axisTitleFontSize.value,
+    const axisTitleFontSize = computed(() => {
+      const calculatedSize = windowWidth.value * 0.0175;
+      const minSize = 10;
+      return `${Math.max(calculatedSize, minSize)}px`;
+    });
+    const chartHeight = computed(() => {
+      return windowWidth.value < 768 ? "325px" : "100%";
+    });
+
+    const chartOptions = computed(() => ({
+      chart: {
+        id: "blocked-chart",
+        toolbar: {
+          show: true,
+          tools: {
+            pan: true,
+            zoom: true,
+            selection: true,
+            download: false,
+            zoomin: true,
+            zoomout: true,
+            reset: true,
+          },
+        },
       },
-    },
-    type: "datetime",
-  },
-  yaxis: {
-    title: {
-      text: yAxisTitle.value,
-      style: {
-        fontSize: axisTitleFontSize.value,
+      responsive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              height: chartHeight.value,
+            },
+          },
+        },
+        {
+          breakpoint: 10000,
+          options: {
+            chart: {
+              height: "auto",
+            },
+          },
+        },
+      ],
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: function (val) {
+            const total =
+              (val / 100) * parseInt(chartStore.showAmount.replace("Top ", ""));
+            return `${Math.round(total)} (${val.toFixed(1) + "%"})`;
+          },
+        },
       },
-    },
-    labels: {
-      formatter: function (val) {
-        return val.toFixed(0);
+
+      xaxis: {
+        min: new Date("2010-01-01").getTime(),
+        title: {
+          text: "Date",
+          style: {
+            fontSize: axisTitleFontSize.value,
+          },
+        },
+        type: "datetime",
       },
-    },
-  },
-}));
+      yaxis: {
+        title: {
+          text: yAxisTitle.value,
+          style: {
+            fontSize: axisTitleFontSize.value,
+          },
+        },
+        labels: {
+          formatter: function (val) {
+            return val.toFixed(0);
+          },
+        },
+      },
+    }));
 
     const fetchChartData = () => {
       let selectedAmount = chartStore.showAmount.replace("Top ", "");
       let selectedBotType = chartStore.selectedBotType;
 
-      let url = `${backendUrl}blocked-websites.php?limit=${selectedAmount}&botType=${encodeURIComponent(selectedBotType)}`;
+      let url = `${backendUrl}blocked-websites.php?limit=${selectedAmount}&botType=${encodeURIComponent(
+        selectedBotType
+      )}`;
       if (chartStore.showCategory !== null) {
         url += `&category=${encodeURIComponent(chartStore.showCategory)}`;
       }
@@ -241,7 +250,7 @@ const chartOptions = computed(() => ({
 
           data.forEach((entry) => {
             const { bot_name, block_date, blocked_count } = entry;
-            // console.log("entry", entry);
+
             if (!botsMapping[bot_name]) {
               botsMapping[bot_name] = [];
             }
@@ -252,7 +261,6 @@ const chartOptions = computed(() => ({
           });
 
           // object with one key-value pair for each bot name. value is an array of objects of all check dates, with a count for each check day.
-          // console.log(botsMapping);
 
           const startDate = new Date("2004-01-01");
           const today = new Date();
@@ -315,11 +323,8 @@ const chartOptions = computed(() => ({
           // convert back to object
           botSeries = Object.fromEntries(botSeriesArray);
 
-          // console.log("botSeries", botSeries);
-
           series.value = Object.values(botSeries);
           chartStore.setChartData(botSeries);
-          console.log("chartStore data", chartStore.chartData);
         })
         .catch((error) => {
           console.error("Fetch error:", error);
@@ -327,45 +332,48 @@ const chartOptions = computed(() => ({
     };
 
     const downloadChart = async () => {
-  const elementToSave = document.querySelector(".chart-container");
-  const toolbar = document.querySelector(".apexcharts-toolbar");
+      const elementToSave = document.querySelector(".chart-container");
+      const toolbar = document.querySelector(".apexcharts-toolbar");
 
-  if (elementToSave) {
-    // hide while saving
-    if (toolbar) {
-      toolbar.style.display = 'none';
-    }
+      if (elementToSave) {
+        // hide while saving
+        if (toolbar) {
+          toolbar.style.display = "none";
+        }
 
-    const canvas = await html2canvas(elementToSave);
-    let link = document.createElement("a");
-    let sanitizedFilename = chartTitle.value.replace(/[^a-z0-9]/gi, " ");
+        const canvas = await html2canvas(elementToSave);
+        let link = document.createElement("a");
+        let sanitizedFilename = chartTitle.value.replace(/[^a-z0-9]/gi, " ");
 
-    link.download = `Originality.AI - ${sanitizedFilename}.png`;
+        link.download = `Originality.AI - ${sanitizedFilename}.png`;
 
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+        link.href = canvas.toDataURL("image/png");
+        link.click();
 
-    // show after saving
-    if (toolbar) {
-      toolbar.style.display = '';
-    }
-  }
-};
+        // show after saving
+        if (toolbar) {
+          toolbar.style.display = "";
+        }
+      }
+    };
 
     const series = ref([]);
 
     onMounted(() => {
       fetchChartData();
-      window.addEventListener('resize', updateWidth);
-      
+      window.addEventListener("resize", updateWidth);
     });
 
     onUnmounted(() => {
-      window.removeEventListener('resize', updateWidth);
+      window.removeEventListener("resize", updateWidth);
     });
 
     watch(
-      [() => chartStore.showAmount, () => chartStore.showCategory, () => chartStore.selectedBotType],
+      [
+        () => chartStore.showAmount,
+        () => chartStore.showCategory,
+        () => chartStore.selectedBotType,
+      ],
       (newVal, oldVal) => {
         // console.log("showAmount changed from", oldVal, "to", newVal);
         fetchChartData();
@@ -382,17 +390,16 @@ const chartOptions = computed(() => ({
       downloadChart,
       chartTitle,
       purpleLogo,
-      mainTitle, 
+      mainTitle,
       categoryTitle,
       chartTitleFontSize,
-      categoryTitleFontSize
+      categoryTitleFontSize,
     };
   },
 };
 </script>
 
 <style scoped>
-
 .chart-title {
   display: flex;
   flex-direction: column;
@@ -401,12 +408,12 @@ const chartOptions = computed(() => ({
 }
 
 .main-title {
-    font-weight: 800;
-  }
+  font-weight: 800;
+}
 
-  .category-title {
-    font-weight: 400
-  }
+.category-title {
+  font-weight: 400;
+}
 
 .chart-container {
   position: relative;
@@ -460,11 +467,9 @@ const chartOptions = computed(() => ({
 }
 
 @media (max-width: 768px) {
-
-
   .chart-logo {
     top: 60px;
-  left: 45px;
+    left: 45px;
   }
   .chart-info-cont {
     flex-direction: column;

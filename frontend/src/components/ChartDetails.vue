@@ -36,8 +36,6 @@ export default {
     });
 
     const tableData = computed(() => {
-      console.log("tableData", chartStore.chartData);
-
       if (!chartStore.chartData) return [];
 
       const entries = Object.entries(chartStore.chartData);
@@ -78,8 +76,6 @@ export default {
 
       return processedBots.filter((row) => row !== null);
     });
-
-    // console.log(tableData);
 
     return {
       chartStore,
